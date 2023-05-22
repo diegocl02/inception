@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - wpnet
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - wordpress
+    networks:
+      - wpnet
+
+networks:
+  wpnet:
+    driver: bridge
+
+volumes:
+  wordpress_data:
