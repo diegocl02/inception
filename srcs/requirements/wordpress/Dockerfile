@@ -25,10 +25,15 @@ RUN curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz && \
     rm wordpress.tar.gz
 
 # Set the correct permissions
-# RUN chown -R nobody:nobody /var/www/html
+RUN adduser -S www-data -G www-data
 
 # Copy PHP-FPM configuration file
-COPY php-fpm.conf /etc/php81/php-fpm.d/www.conf
+COPY conf/php-fpm.conf /etc/php81/php-fpm.d/www.conf
+
+# Copy wp-setup.sh script and run it
+COPY tools/wp-setup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wp-setup.sh
+ENTRYPOINT ["/usr/local/bin/wp-setup.sh"]
 
 # Expose the listening port
 EXPOSE 9000

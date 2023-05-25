@@ -2,13 +2,20 @@ version: "3.9"
 
 services:
   wordpress:
-    build: ./requirements/wordpress
+    build: 
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
     image: wordpress
     container_name: wordpress
     volumes:
       - wordpress_data:/var/www/html
     networks:
       - wpnet
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - mariadb
 
   nginx:
     build:
@@ -21,6 +28,25 @@ services:
       - 443:443
     depends_on:
       - wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - wpnet
+    env_file:
+      - .env
+    restart: always
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - .env
     networks:
       - wpnet
 
@@ -30,3 +56,14 @@ networks:
 
 volumes:
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOLUME_DIR}/wordpress_data
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOLUME_DIR}/db_data

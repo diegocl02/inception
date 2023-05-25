@@ -14,7 +14,7 @@ RUN mkdir /etc/nginx/ssl && \
 RUN apk --no-cache add curl
 
 # Copy the NGINX configuration file
-# COPY nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 # Expose the NGINX listening port
 EXPOSE 443
