@@ -1,5 +1,5 @@
 # Use the official Alpine Linux image as the base image
-FROM alpine:latest
+FROM alpine:3.17
 
 # Set the working directory
 WORKDIR /var/www/html

@@ -9,13 +9,13 @@ VOLUMEN_PATH_WP = $(VOLUME_DIR)/wordpress_data
 VOLUMEN_PATH_MYSQL = $(VOLUME_DIR)/db_data
 
 all:
-	@docker compose -f ./srcs/docker-compose.yml up -d --build
+	@docker-compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
-	@docker compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml down
 
 clean:
-	@docker compose -f ./srcs/docker-compose.yml down --volumes
+	@docker-compose -f ./srcs/docker-compose.yml down --volumes
 	rm -rf $(VOLUMEN_PATH_WP)/*
 	rm -rf $(VOLUMEN_PATH_MYSQL)/*
 

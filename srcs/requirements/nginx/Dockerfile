@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.17
 
 # Install NGINX and OpenSSL
 RUN apk update && \
